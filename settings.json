@@ -1,0 +1,100 @@
+{
+  "model": "opus",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.claude/hooks/speak-response.py\"",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "afplay -v 0.5 \"$HOME/.claude/sounds/done.wav\" 2>/dev/null || true",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.claude/hooks/vscode-attention.py\" on",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.claude/hooks/vscode-attention.py\" off",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$HOME/.claude/hooks/vscode-attention.py\" off",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "j=$(cat); d=$(printf '%s' \"$j\" | jq -r '.workspace.current_dir'); m=$(printf '%s' \"$j\" | jq -r '.model.display_name'); b=$(git -C \"$d\" branch --show-current 2>/dev/null); printf '\\033[2m%s\\033[0m  %s%b' \"$m\" \"$(basename \"$d\")\" \"${b:+  \\033[36m⎇ $b\\033[0m}\""
+  },
+  "enabledPlugins": {
+    "context7@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true,
+    "github@claude-plugins-official": true,
+    "figma@claude-plugins-official": true,
+    "supabase@claude-plugins-official": true,
+    "telegram@claude-plugins-official": true,
+    "playground@claude-plugins-official": true,
+    "stripe@claude-plugins-official": true,
+    "hookify@claude-plugins-official": true,
+    "firecrawl@claude-plugins-official": true,
+    "miro@claude-plugins-official": true,
+    "mcp-tunnels@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "security-guidance@claude-plugins-official": true,
+    "vercel@claude-plugins-official": true,
+    "feature-dev@claude-plugins-official": true,
+    "mcp-server-dev@claude-plugins-official": true,
+    "ponytail@ponytail": true,
+    "ui-ux-pro-max@ui-ux-pro-max-skill": true
+  },
+  "extraKnownMarketplaces": {
+    "ponytail": {
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
+      }
+    },
+    "ui-ux-pro-max-skill": {
+      "source": {
+        "source": "github",
+        "repo": "nextlevelbuilder/ui-ux-pro-max-skill"
+      }
+    }
+  },
+  "language": "ru",
+  "effortLevel": "xhigh",
+  "voice": {
+    "enabled": true,
+    "mode": "hold"
+  },
+  "theme": "dark",
+  "agentPushNotifEnabled": true
+}
