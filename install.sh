@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Использование: ./install.sh [-y]   (-y — не спрашивать про перезапись)
 # Разворачивает набор скиллов/агентов/команд/правил/хуков в ~/.claude
 # и ставит плагины + MCP-серверы. Идемпотентен, старое кладёт в бэкап.
 set -euo pipefail
@@ -23,6 +24,26 @@ if [ -n "$EXISTING" ]; then
   TS=$(date +%Y%m%d-%H%M%S)
   say "Бэкап текущего ~/.claude → backups/pre-setup-$TS.tgz"
   tar czf "$DST/backups/pre-setup-$TS.tgz" -C "$DST" $EXISTING
+fi
+
+# ── 1.5 Конфликты имён: что будет перезаписано ────────────────────────────────
+CONFLICTS=$(
+  for d in $DIRS; do
+    [ -d "$DST/$d" ] || continue
+    for item in "$SRC/$d"/*; do
+      n=$(basename "$item")
+      [ -e "$DST/$d/$n" ] && echo "  $d/$n"
+    done
+  done
+)
+if [ -n "$CONFLICTS" ]; then
+  warn "уже есть и будет перезаписано ($(echo "$CONFLICTS" | wc -l | tr -d ' ') шт., копия в бэкапе выше):"
+  echo "$CONFLICTS" | head -30
+  [ "$(echo "$CONFLICTS" | wc -l | tr -d ' ')" -gt 30 ] && echo "  ..."
+  if [ "${1:-}" != "-y" ] && [ -t 0 ]; then
+    read -rp "Продолжить? [y/N] " ans
+    [ "$ans" = "y" ] || { echo "Отменено. Ничего не тронуто."; exit 1; }
+  fi
 fi
 
 # ── 2. Файлы ────────────────────────────────────────────────────────────────
