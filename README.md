@@ -18,6 +18,10 @@ unzip claude-code-setup.zip && cd claude-code-setup
 **Перед запуском прочитать [INSTALL.md](INSTALL.md)** — что скрипт делает и чего
 не делает, как откатиться, что сказать своему Claude Code после установки.
 
+**Чистый мак, где ещё ничего нет?** — [NEW-MAC-SETUP.md](NEW-MAC-SETUP.md):
+система, Claude Code, VS Code, клон этого репо и ключи — с нуля до рабочей
+сессии.
+
 ---
 
 ## Что внутри
